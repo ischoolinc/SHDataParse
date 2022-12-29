@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FISCA.Permission;
+using FISCA.Presentation.Controls;
+using K12.Data;
 using FISCA;
 using FISCA.Presentation;
 using WeekCourseRecordsParse.winForm;
@@ -15,9 +17,8 @@ namespace WeekCourseRecordsParse
         [FISCA.MainMethod()]
         public static void main()
         {
-            RibbonBarItem rbItem1 = MotherForm.RibbonBarItems["課程", "資料統計"];
-            rbItem1["解析"]["課程相關解析"]["課程週課表解析"].Enable = UserAcl.Current["5B05FBB6-45D1-4FDD-BAE9-7A446986FCDE"].Executable;
-            rbItem1["解析"]["課程相關解析"]["課程週課表解析"].Click += delegate
+            MotherForm.RibbonBarItems["課程", "資料統計"]["匯入"]["課程週課表解析"].Enable = UserAcl.Current["5B05FBB6-45D1-4FDD-BAE9-7A446986FCDE"].Executable;
+            MotherForm.RibbonBarItems["課程", "資料統計"]["匯入"]["課程週課表解析"].Click += delegate
             {
                 MainForm mf = new MainForm();
                 mf.ShowDialog();
