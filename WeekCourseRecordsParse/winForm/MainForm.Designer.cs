@@ -85,6 +85,7 @@
             this.buttonParse02.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.buttonParse02.TabIndex = 3;
             this.buttonParse02.Text = "讀取欣河資料並轉換";
+            this.buttonParse02.Click += new System.EventHandler(this.buttonParse02_Click);
             // 
             // MainForm
             // 

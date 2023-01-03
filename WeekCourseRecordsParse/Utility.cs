@@ -81,7 +81,7 @@ namespace WeekCourseRecordsParse
 
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    // 讀取 Excel 檔案
+                    // 讀取 Excel 檔案，Excel 97 以上
                     wb = new Workbook(ofd.FileName);
                 }
 
@@ -92,6 +92,22 @@ namespace WeekCourseRecordsParse
             }
 
             return wb;
+        }
+
+        public static Dictionary<string, int> ReadWorksheetColumnDict(Worksheet wst)
+        {
+            Dictionary<string, int> ColIdxDic = new Dictionary<string, int>();
+            int colIdx = 0;
+            for (int col = 0; col <= wst.Cells.MaxDataColumn; col++)
+            {
+                string colName = wst.Cells[0, col].StringValue;
+                if (!ColIdxDic.ContainsKey(colName))
+                {
+                    ColIdxDic.Add(colName, colIdx);
+                    colIdx++;
+                }
+            }
+            return ColIdxDic;
         }
     }
 }

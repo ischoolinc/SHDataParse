@@ -80,23 +80,19 @@ ORDER BY
             return value;
         }
 
+        /// <summary>
+        /// 處理全訊資料
+        /// </summary>
+        /// <param name="wb"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public static Workbook CourseDataParse01(Workbook wb, List<CourseRecordInfo> data)
         {
             Workbook value = new Workbook(new MemoryStream(Properties.Resources.匯入課程週課表樣板));
+            Worksheet wst = wb.Worksheets[0];
 
             // 解析欄位
-            Dictionary<string, int> ColIdxDic = new Dictionary<string, int>();
-            Worksheet wst = wb.Worksheets[0];
-            int colIdx = 0;
-            for (int col = 0; col <= wst.Cells.MaxDataColumn; col++)
-            {
-                string colName = wst.Cells[0, col].StringValue;
-                if (!ColIdxDic.ContainsKey(colName))
-                {
-                    ColIdxDic.Add(colName, colIdx);
-                    colIdx++;
-                }
-            }
+            Dictionary<string, int> ColIdxDic = Utility.ReadWorksheetColumnDict(wst);            
 
             // 檢查必要欄位:節次,課程全名,教師姓名，有資料再繼續
             if (ColIdxDic.ContainsKey("節次") && ColIdxDic.ContainsKey("課程全名") && ColIdxDic.ContainsKey("教師姓名"))
@@ -135,54 +131,129 @@ ORDER BY
                     foreach (CourseRecordInfo cr in data)
                     {
                         if (cr.CourseName.Contains(cd.CourseName) && cr.TeacherName1.Contains(cd.TeacherName))
-                        {
-                            CourseRecordInfo nCr = new CourseRecordInfo();
-                            nCr.ClassName = cr.ClassName;
-                            nCr.CourseID = cr.CourseID;
-                            nCr.CourseName = cr.CourseName;
-                            nCr.SchoolYear = cr.SchoolYear;
-                            nCr.Semester = cr.Semester;
-                            nCr.TeacherName1 = cr.TeacherName1;
-                            nCr.SubjectName = cr.SubjectName;
-                            nCr.Period = cd.Period;
-                            nCr.Week = cd.Week;                           
-                            
-                            ResultData.Add(nCr);
+                        {                            
+                            ResultData.Add(AddCourseRecordInfo(cr, cd));
                             break;
                         }
                     }
                 }
 
-                int coIdx = 0;
-                // 寫入結果
-                Dictionary<string, int> colIdxDict = new Dictionary<string, int>();
-                for (int col = 0; col <= value.Worksheets[0].Cells.MaxColumn; col++)
-                {
-                    string colName = value.Worksheets[0].Cells[0, col].StringValue;
-                    if (!colIdxDict.ContainsKey(colName))
-                    {
-                        colIdxDict.Add(colName, coIdx);
-                        coIdx++;
-                    }
-                }
-                int roIdx = 1;
-                foreach(CourseRecordInfo cr in ResultData)
-                {
-                    value.Worksheets[0].Cells[roIdx, colIdxDict["課程系統編號"]].PutValue(cr.CourseID);
-                    value.Worksheets[0].Cells[roIdx, colIdxDict["星期"]].PutValue(cr.Week);
-                    value.Worksheets[0].Cells[roIdx, colIdxDict["節次"]].PutValue(cr.Period);
-                    value.Worksheets[0].Cells[roIdx, colIdxDict["學年度"]].PutValue(cr.SchoolYear);
-                    value.Worksheets[0].Cells[roIdx, colIdxDict["學期"]].PutValue(cr.Semester);
-                    value.Worksheets[0].Cells[roIdx, colIdxDict["課程名稱"]].PutValue(cr.CourseName);
-                    value.Worksheets[0].Cells[roIdx, colIdxDict["科目"]].PutValue(cr.SubjectName);
-                    value.Worksheets[0].Cells[roIdx, colIdxDict["班級"]].PutValue(cr.ClassName);
-                    value.Worksheets[0].Cells[roIdx, colIdxDict["授課教師1"]].PutValue(cr.TeacherName1);
-                    roIdx++;
-                }
-                value.Worksheets[0].AutoFitColumns();
+                // 產生至 Excel 檔案
+                value = ProcessWorkbook(value, ResultData);
             }
 
             return value;
+        }
+
+        /// <summary>
+        /// 處理欣河資料
+        /// </summary>
+        /// <param name="wb"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static Workbook CourseDataParse02(Workbook wb, List<CourseRecordInfo> data)
+        {
+            Workbook value = new Workbook(new MemoryStream(Properties.Resources.匯入課程週課表樣板));
+            Worksheet wst = wb.Worksheets[0];
+
+            // 解析欄位
+            Dictionary<string, int> ColIdxDic = Utility.ReadWorksheetColumnDict(wst);
+            
+            // 檢查必要欄位:節次,課程全名,教師姓名，有資料再繼續
+            if (ColIdxDic.ContainsKey("班級") && ColIdxDic.ContainsKey("科目名稱") && ColIdxDic.ContainsKey("教師名稱"))
+            {
+                // 最後結果
+                List<CourseRecordInfo> ResultData = new List<CourseRecordInfo>();
+
+                List<ChkDataInfo> ChkDataList = new List<ChkDataInfo>();
+                // 讀取需要資料
+                for (int rowIdx = 1; rowIdx <= wst.Cells.MaxDataRow; rowIdx++)
+                {
+                    ChkDataInfo cd = new ChkDataInfo();
+                    cd.SubjectName = wst.Cells[rowIdx, ColIdxDic["科目名稱"]].StringValue.Trim();
+                    cd.ClassName = wst.Cells[rowIdx, ColIdxDic["班級"]].StringValue.Trim();
+
+                    // 沒有課程名稱不處理
+                    if (string.IsNullOrWhiteSpace(cd.CourseName))
+                        continue;
+
+                    List<string> teaName = wst.Cells[rowIdx, ColIdxDic["教師名稱"]].StringValue.Trim().Split(',').ToList();
+                    if (teaName.Count > 0)
+                        cd.TeacherName = teaName[0].Trim();
+
+                    cd.Week = wst.Cells[rowIdx, ColIdxDic["星期"]].StringValue.Trim();
+                    cd.Period = wst.Cells[rowIdx, ColIdxDic["節次"]].StringValue.Trim();
+                    
+                    ChkDataList.Add(cd);
+                }
+
+                // 比對資料
+                foreach (ChkDataInfo cd in ChkDataList)
+                {
+                    // 比對 ischool 來比對班級+科目名稱+教師名稱
+                    foreach (CourseRecordInfo cr in data)
+                    {
+                        if (cr.ClassName.Contains(cd.ClassName) && cr.TeacherName1.Contains(cd.TeacherName)&& cr.SubjectName.Contains(cd.SubjectName))
+                        {
+                            ResultData.Add(AddCourseRecordInfo(cr,cd));
+                            break;
+                        }
+                    }
+                }
+
+                // 產生至 Excel 檔案
+                value = ProcessWorkbook(value, ResultData);
+            }
+
+            return value;
+        }
+
+        private static CourseRecordInfo AddCourseRecordInfo(CourseRecordInfo cr, ChkDataInfo cd)
+        {
+            CourseRecordInfo nCr = new CourseRecordInfo();
+            nCr.ClassName = cr.ClassName;
+            nCr.CourseID = cr.CourseID;
+            nCr.CourseName = cr.CourseName;
+            nCr.SchoolYear = cr.SchoolYear;
+            nCr.Semester = cr.Semester;
+            nCr.TeacherName1 = cr.TeacherName1;
+            nCr.SubjectName = cr.SubjectName;
+            nCr.Period = cd.Period;
+            nCr.Week = cd.Week;
+            return nCr;
+        }
+
+
+        private static Workbook ProcessWorkbook(Workbook wb, List<CourseRecordInfo> Data)
+        {
+            int coIdx = 0;
+            // 寫入結果
+            Dictionary<string, int> colIdxDict = new Dictionary<string, int>();
+            for (int col = 0; col <= wb.Worksheets[0].Cells.MaxColumn; col++)
+            {
+                string colName = wb.Worksheets[0].Cells[0, col].StringValue;
+                if (!colIdxDict.ContainsKey(colName))
+                {
+                    colIdxDict.Add(colName, coIdx);
+                    coIdx++;
+                }
+            }
+            int roIdx = 1;
+            foreach (CourseRecordInfo cr in Data)
+            {
+                wb.Worksheets[0].Cells[roIdx, colIdxDict["課程系統編號"]].PutValue(cr.CourseID);
+                wb.Worksheets[0].Cells[roIdx, colIdxDict["星期"]].PutValue(cr.Week);
+                wb.Worksheets[0].Cells[roIdx, colIdxDict["節次"]].PutValue(cr.Period);
+                wb.Worksheets[0].Cells[roIdx, colIdxDict["學年度"]].PutValue(cr.SchoolYear);
+                wb.Worksheets[0].Cells[roIdx, colIdxDict["學期"]].PutValue(cr.Semester);
+                wb.Worksheets[0].Cells[roIdx, colIdxDict["課程名稱"]].PutValue(cr.CourseName);
+                wb.Worksheets[0].Cells[roIdx, colIdxDict["科目"]].PutValue(cr.SubjectName);
+                wb.Worksheets[0].Cells[roIdx, colIdxDict["班級"]].PutValue(cr.ClassName);
+                wb.Worksheets[0].Cells[roIdx, colIdxDict["授課教師1"]].PutValue(cr.TeacherName1);
+                roIdx++;
+            }
+            wb.Worksheets[0].AutoFitColumns();
+            return wb;
         }
 
     }
