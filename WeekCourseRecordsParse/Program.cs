@@ -17,12 +17,14 @@ namespace WeekCourseRecordsParse
         [FISCA.MainMethod()]
         public static void main()
         {
-            MotherForm.RibbonBarItems["課程", "資料統計"]["匯入"]["課程週課表解析"].Enable = UserAcl.Current["5B05FBB6-45D1-4FDD-BAE9-7A446986FCDE"].Executable;
-            MotherForm.RibbonBarItems["課程", "資料統計"]["匯入"]["課程週課表解析"].Click += delegate
+            MotherForm.RibbonBarItems["課程", "其它"]["課程週課表解析"].Enable = UserAcl.Current["5B05FBB6-45D1-4FDD-BAE9-7A446986FCDE"].Executable;
+            MotherForm.RibbonBarItems["課程", "其它"]["課程週課表解析"].Click += delegate
             {
                 MainForm mf = new MainForm();
                 mf.ShowDialog();
             };
+            MotherForm.RibbonBarItems["課程", "其它"]["課程週課表解析"].Image = Properties.Resources.laptop;
+            MotherForm.RibbonBarItems["課程", "其它"]["課程週課表解析"].Size = RibbonBarButton.MenuButtonSize.Medium;
 
             // 權限註冊
             Catalog catalog1 = RoleAclSource.Instance["課程"]["功能按鈕"];

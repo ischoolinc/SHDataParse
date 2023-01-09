@@ -160,6 +160,7 @@
     <Content Include="Library\K12.Data.xml" />
     <Content Include="Library\K12.Presentation.dll" />
     <Content Include="Library\K12.Presentation.xml" />
+    <None Include="Resources\laptop.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Template\匯入課程週課表樣板.xlsx" />

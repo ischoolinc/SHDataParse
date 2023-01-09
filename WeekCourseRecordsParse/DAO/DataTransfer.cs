@@ -158,8 +158,8 @@ ORDER BY
 
             // 解析欄位
             Dictionary<string, int> ColIdxDic = Utility.ReadWorksheetColumnDict(wst);
-            
-            // 檢查必要欄位:節次,課程全名,教師姓名，有資料再繼續
+
+            // 檢查必要欄位:節次,班級,科目名稱,教師姓名，有資料再繼續
             if (ColIdxDic.ContainsKey("班級") && ColIdxDic.ContainsKey("科目名稱") && ColIdxDic.ContainsKey("教師名稱"))
             {
                 // 最後結果
@@ -173,8 +173,8 @@ ORDER BY
                     cd.SubjectName = wst.Cells[rowIdx, ColIdxDic["科目名稱"]].StringValue.Trim();
                     cd.ClassName = wst.Cells[rowIdx, ColIdxDic["班級"]].StringValue.Trim();
 
-                    // 沒有課程名稱不處理
-                    if (string.IsNullOrWhiteSpace(cd.CourseName))
+                    // 沒有科目名稱不處理
+                    if (string.IsNullOrWhiteSpace(cd.SubjectName))
                         continue;
 
                     List<string> teaName = wst.Cells[rowIdx, ColIdxDic["教師名稱"]].StringValue.Trim().Split(',').ToList();
