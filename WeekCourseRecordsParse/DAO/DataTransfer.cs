@@ -92,10 +92,10 @@ ORDER BY
             Worksheet wst = wb.Worksheets[0];
 
             // 解析欄位
-            Dictionary<string, int> ColIdxDic = Utility.ReadWorksheetColumnDict(wst);            
+            Dictionary<string, int> ColIdxDic = Utility.ReadWorksheetColumnDict(wst);
 
-            // 檢查必要欄位:節次,課程全名,教師姓名，有資料再繼續
-            if (ColIdxDic.ContainsKey("節次") && ColIdxDic.ContainsKey("課程全名") && ColIdxDic.ContainsKey("教師姓名"))
+            // 檢查必要欄位:節次,課程全名,教師姓名，班級名稱，有資料再繼續
+            if (ColIdxDic.ContainsKey("班級名稱") && ColIdxDic.ContainsKey("節次") && ColIdxDic.ContainsKey("課程全名") && ColIdxDic.ContainsKey("教師姓名"))
             {
                 // 最後結果
                 List<CourseRecordInfo> ResultData = new List<CourseRecordInfo>();
@@ -106,6 +106,8 @@ ORDER BY
                 {
                     ChkDataInfo cd = new ChkDataInfo();
                     cd.CourseName = wst.Cells[rowIdx, ColIdxDic["課程全名"]].StringValue.Trim();
+
+                    cd.ClassName = wst.Cells[rowIdx, ColIdxDic["班級名稱"]].StringValue.Trim();
 
                     // 沒有課程名稱不處理
                     if (string.IsNullOrWhiteSpace(cd.CourseName))
@@ -121,17 +123,18 @@ ORDER BY
                         cd.Week = wk.Substring(0, 1);
                         cd.Period = wk.Substring(1, 1);
                     }
+                    
                     ChkDataList.Add(cd);
                 }
 
                 // 比對資料
                 foreach (ChkDataInfo cd in ChkDataList)
                 {
-                    // 比對 ischool 來課程資料，使用課程名稱 教師名
+                    // 比對 ischool 來課程資料，使用課程名稱 教師名，班級名稱
                     foreach (CourseRecordInfo cr in data)
                     {
-                        if (cr.CourseName.Contains(cd.CourseName) && cr.TeacherName1.Contains(cd.TeacherName))
-                        {                            
+                        if (cr.CourseName.Contains(cd.CourseName) && cr.TeacherName1.Contains(cd.TeacherName) && cr.ClassName.Contains(cd.ClassName))
+                        {                     
                             ResultData.Add(AddCourseRecordInfo(cr, cd));
                             break;
                         }
