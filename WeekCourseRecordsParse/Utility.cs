@@ -69,7 +69,7 @@ namespace WeekCourseRecordsParse
             }
         }
 
-        public static Workbook ReadXlsFile()
+        public static Workbook ReadXlsFile(bool isXlsxFirst)
         {
             Workbook wb = null;
             try
@@ -77,7 +77,13 @@ namespace WeekCourseRecordsParse
                 OpenFileDialog ofd = new OpenFileDialog();
                 ofd.FileName = "請選需要解析檔";
                 ofd.Title = "請選需要解析檔";
-                ofd.Filter = "(*.xls)|*.xls|(*.xlsx)|*.xlsx";
+
+                // 預設先讀xlsx
+                if (isXlsxFirst)
+                    ofd.Filter = "(*.xlsx)|*.xlsx|(*.xls)|*.xls";
+                else
+                    ofd.Filter = "(*.xls)|*.xls|(*.xlsx)|*.xlsx";
+
 
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {

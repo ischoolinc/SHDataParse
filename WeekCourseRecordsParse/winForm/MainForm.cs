@@ -39,7 +39,7 @@ namespace WeekCourseRecordsParse.winForm
         {
             buttonEnable(false);
             // 讀取解析檔
-            Workbook wb = Utility.ReadXlsFile();
+            Workbook wb = Utility.ReadXlsFile(false);
             if (wb != null)
             {
                 // 讀取課程資料
@@ -62,7 +62,7 @@ namespace WeekCourseRecordsParse.winForm
 
         private void buttonEnable(bool value)
         {
-            buttonParse01.Enabled = buttonParse02.Enabled = value;
+            buttonParse01.Enabled = buttonParse02.Enabled = buttonParse03.Enabled = value;
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -74,7 +74,7 @@ namespace WeekCourseRecordsParse.winForm
         {
             buttonEnable(false);
             // 讀取解析檔
-            Workbook wb = Utility.ReadXlsFile();
+            Workbook wb = Utility.ReadXlsFile(false);
             if (wb != null)
             {
                 // 讀取課程資料
@@ -82,6 +82,31 @@ namespace WeekCourseRecordsParse.winForm
 
                 //  解析資料
                 Workbook resultWb = DataTransfer.CourseDataParse02(wb, CourseRecordList);
+
+                // 輸出
+                Utility.ExportXls(SchoolYear + "學年度第" + Semester + "學期_課程週課表解析", resultWb);
+
+            }
+            else
+            {
+                MsgBox.Show("讀取 Excel 檔案發生錯誤或版本過舊，要Excel 97以上版本。");
+            }
+
+            buttonEnable(true);
+        }
+
+        private void buttonParse03_Click(object sender, EventArgs e)
+        {
+            buttonEnable(false);
+            // 讀取解析檔
+            Workbook wb = Utility.ReadXlsFile(true);
+            if (wb != null)
+            {
+                // 讀取課程資料
+                List<CourseRecordInfo> CourseRecordList = DataTransfer.GetCourseRecordListBySchoolYearSemester(SchoolYear, Semester);
+
+                //  解析資料
+                Workbook resultWb = DataTransfer.CourseDataParse03(wb, CourseRecordList);
 
                 // 輸出
                 Utility.ExportXls(SchoolYear + "學年度第" + Semester + "學期_課程週課表解析", resultWb);

@@ -211,6 +211,64 @@ ORDER BY
             return value;
         }
 
+        public static Workbook CourseDataParse03(Workbook wb, List<CourseRecordInfo> data)
+        {
+            Workbook value = new Workbook(new MemoryStream(Properties.Resources.匯入課程週課表樣板));
+            Worksheet wst = wb.Worksheets[0];
+
+            // 解析欄位
+            Dictionary<string, int> ColIdxDic = Utility.ReadWorksheetColumnDict(wst);
+
+            // 讀取(科目名稱+所屬班級+授課教師一)比對，再讀取星期,節次資料。
+
+            if (ColIdxDic.ContainsKey("所屬班級") && ColIdxDic.ContainsKey("科目名稱") && ColIdxDic.ContainsKey("授課教師一"))
+            {
+                // 最後結果
+                List<CourseRecordInfo> ResultData = new List<CourseRecordInfo>();
+
+                List<ChkDataInfo> ChkDataList = new List<ChkDataInfo>();
+                // 讀取需要資料
+                for (int rowIdx = 1; rowIdx <= wst.Cells.MaxDataRow; rowIdx++)
+                {
+                    ChkDataInfo cd = new ChkDataInfo();
+                    cd.SubjectName = wst.Cells[rowIdx, ColIdxDic["科目名稱"]].StringValue.Trim();
+                    cd.ClassName = wst.Cells[rowIdx, ColIdxDic["所屬班級"]].StringValue.Trim();
+
+                    // 沒有科目名稱不處理
+                    if (string.IsNullOrWhiteSpace(cd.SubjectName))
+                        continue;
+
+                    List<string> teaName = wst.Cells[rowIdx, ColIdxDic["授課教師一"]].StringValue.Trim().Split(',').ToList();
+                    if (teaName.Count > 0)
+                        cd.TeacherName = teaName[0].Trim();
+
+                    cd.Week = wst.Cells[rowIdx, ColIdxDic["星期"]].StringValue.Trim();
+                    cd.Period = wst.Cells[rowIdx, ColIdxDic["節次"]].StringValue.Trim();
+
+                    ChkDataList.Add(cd);
+                }
+
+                // 比對資料
+                foreach (ChkDataInfo cd in ChkDataList)
+                {
+                    // 讀取(科目名稱+所屬班級+授課教師一)比對，再讀取星期,節次資料。
+                    foreach (CourseRecordInfo cr in data)
+                    {
+                        if (cr.ClassName.Contains(cd.ClassName) && cr.TeacherName1.Contains(cd.TeacherName) && cr.SubjectName.Contains(cd.SubjectName))
+                        {
+                            ResultData.Add(AddCourseRecordInfo(cr, cd));
+                            break;
+                        }
+                    }
+                }
+
+                // 產生至 Excel 檔案
+                value = ProcessWorkbook(value, ResultData);
+            }
+
+            return value;
+        }
+
         private static CourseRecordInfo AddCourseRecordInfo(CourseRecordInfo cr, ChkDataInfo cd)
         {
             CourseRecordInfo nCr = new CourseRecordInfo();
