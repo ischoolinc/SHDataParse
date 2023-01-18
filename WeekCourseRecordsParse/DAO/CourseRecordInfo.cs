@@ -16,7 +16,10 @@ namespace WeekCourseRecordsParse.DAO
         public string CourseName { get; set; } // 課程名稱
         public string SubjectName { get; set; } // 科目
         public string ClassName { get; set; } // 班級
-        public string TeacherName1 { get; set; } // 授課教師1
+        //public string TeacherName1 { get; set; } // 授課教師1
+
+         // 存授課教師 1,2,3
+        public List<string> TeacherNameList { get; set; }
 
     }
 }
