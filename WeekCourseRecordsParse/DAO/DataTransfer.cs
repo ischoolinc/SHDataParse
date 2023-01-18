@@ -389,6 +389,7 @@ ORDER BY
             {
                 wb.Worksheets["無法解析"].Cells[roIdx, colIdxDict["課程名稱"]].PutValue(cr.CourseName + "");
                 wb.Worksheets["無法解析"].Cells[roIdx, colIdxDict["科目名稱"]].PutValue(cr.SubjectName + "");
+                wb.Worksheets["無法解析"].Cells[roIdx, colIdxDict["班級"]].PutValue(cr.ClassName + "");
                 wb.Worksheets["無法解析"].Cells[roIdx, colIdxDict["星期"]].PutValue(cr.Week + "");
                 wb.Worksheets["無法解析"].Cells[roIdx, colIdxDict["節次"]].PutValue(cr.Period + "");
                 wb.Worksheets["無法解析"].Cells[roIdx, colIdxDict["授課教師"]].PutValue(string.Join(",", cr.TeacherNameList.ToArray()));
