@@ -124,4 +124,7 @@
   <data name="匯入課程週課表樣板" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\template\匯入課程週課表樣板.xlsx;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="匯入課程週課表樣板New" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Template\匯入課程週課表樣板New.xlsx;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
