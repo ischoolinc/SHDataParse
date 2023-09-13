@@ -496,7 +496,10 @@ ORDER BY
                 wb.Worksheets["週課表"].Cells[roIdx, colIdxDict["科目"]].PutValue(cr.SubjectName);
                 wb.Worksheets["週課表"].Cells[roIdx, colIdxDict["班級"]].PutValue(cr.ClassName);
                 wb.Worksheets["週課表"].Cells[roIdx, colIdxDict["班級代碼"]].PutValue(cr.ClassNumber);
-                wb.Worksheets["週課表"].Cells[roIdx, colIdxDict["授課教師"]].PutValue(string.Join(",", cr.TeacherNameList.ToArray()));
+                if(cr.TeacherNameList!=null)
+                {
+                    wb.Worksheets["週課表"].Cells[roIdx, colIdxDict["授課教師"]].PutValue(string.Join(",", cr.TeacherNameList.ToArray()));
+                }    
                 roIdx++;
             }
             wb.Worksheets["週課表"].AutoFitColumns();
@@ -524,7 +527,7 @@ ORDER BY
                 wb.Worksheets["無法解析"].Cells[roIdx, colIdxDict["星期"]].PutValue(cr.Week + "");
                 wb.Worksheets["無法解析"].Cells[roIdx, colIdxDict["節次"]].PutValue(cr.Period + "");
                 wb.Worksheets["無法解析"].Cells[roIdx, colIdxDict["授課教師"]].PutValue(string.Join(",", cr.TeacherNameList.ToArray()));
-
+                
                 roIdx++;
             }
             wb.Worksheets["無法解析"].AutoFitColumns();
