@@ -47,6 +47,7 @@
             this.btnAnalysis = new DevComponents.DotNetBar.ButtonX();
             this.labelX1 = new DevComponents.DotNetBar.LabelX();
             this.labelX2 = new DevComponents.DotNetBar.LabelX();
+            this.btnPrase021 = new DevComponents.DotNetBar.ButtonX();
             this.grpCustomer.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -82,7 +83,7 @@
             this.btnExit.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.btnExit.BackColor = System.Drawing.Color.Transparent;
             this.btnExit.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnExit.Location = new System.Drawing.Point(234, 467);
+            this.btnExit.Location = new System.Drawing.Point(234, 503);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(116, 24);
             this.btnExit.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -108,7 +109,7 @@
             this.buttonParse03.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.buttonParse03.BackColor = System.Drawing.Color.Transparent;
             this.buttonParse03.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.buttonParse03.Location = new System.Drawing.Point(22, 121);
+            this.buttonParse03.Location = new System.Drawing.Point(22, 158);
             this.buttonParse03.Name = "buttonParse03";
             this.buttonParse03.Size = new System.Drawing.Size(326, 23);
             this.buttonParse03.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -133,7 +134,7 @@
             this.grpCustomer.Controls.Add(this.chkSubjectName);
             this.grpCustomer.Controls.Add(this.btnAnalysis);
             this.grpCustomer.Controls.Add(this.labelX1);
-            this.grpCustomer.Location = new System.Drawing.Point(22, 151);
+            this.grpCustomer.Location = new System.Drawing.Point(22, 198);
             this.grpCustomer.Name = "grpCustomer";
             this.grpCustomer.Size = new System.Drawing.Size(328, 242);
             // 
@@ -336,25 +337,39 @@
             // 
             this.labelX2.BackgroundStyle.Class = "";
             this.labelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX2.Location = new System.Drawing.Point(22, 399);
+            this.labelX2.Location = new System.Drawing.Point(22, 446);
             this.labelX2.Name = "labelX2";
             this.labelX2.Size = new System.Drawing.Size(328, 62);
             this.labelX2.TabIndex = 12;
             this.labelX2.Text = "請勾選比對欄位，並輸入欄位中對應科目、班級名稱、班碼及教師名稱等欄位之實際名稱，如果匯入檔案中沒有上述欄位則保留空白";
             this.labelX2.WordWrap = true;
             // 
+            // btnPrase021
+            // 
+            this.btnPrase021.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.btnPrase021.BackColor = System.Drawing.Color.Transparent;
+            this.btnPrase021.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.btnPrase021.Location = new System.Drawing.Point(22, 121);
+            this.btnPrase021.Name = "btnPrase021";
+            this.btnPrase021.Size = new System.Drawing.Size(326, 23);
+            this.btnPrase021.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.btnPrase021.TabIndex = 13;
+            this.btnPrase021.Text = "讀取天方資料並轉換";
+            this.btnPrase021.Click += new System.EventHandler(this.btnPrase021_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(360, 497);
-            this.Controls.Add(this.labelX2);
+            this.ClientSize = new System.Drawing.Size(360, 539);
+            this.Controls.Add(this.btnPrase021);
             this.Controls.Add(this.grpCustomer);
             this.Controls.Add(this.buttonParse03);
             this.Controls.Add(this.buttonParse02);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.labelSchoolYear);
             this.Controls.Add(this.buttonParse01);
+            this.Controls.Add(this.labelX2);
             this.DoubleBuffered = true;
             this.Name = "MainForm";
             this.Text = "課程週課表解析";
@@ -385,5 +400,6 @@
         private DevComponents.DotNetBar.Controls.TextBoxX txtSeparator;
         private DevComponents.DotNetBar.LabelX labelX1;
         private DevComponents.DotNetBar.LabelX labelX2;
+        private DevComponents.DotNetBar.ButtonX btnPrase021;
     }
 }

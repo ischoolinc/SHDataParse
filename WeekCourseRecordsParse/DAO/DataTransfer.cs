@@ -239,6 +239,107 @@ ORDER BY
 
             return value;
         }
+        /// <summary>
+        /// 處理天方資料
+        /// </summary>
+        /// <param name="wb"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static Workbook CourseDataParse021(Workbook wb, List<CourseRecordInfo> data)
+        {
+            Workbook value = new Workbook(new MemoryStream(Properties.Resources.匯入課程週課表樣板));
+            Worksheet wst = wb.Worksheets[0];
+            if (wst.Cells.MaxColumn>107)
+            {
+                MsgBox.Show("匯入格式不符!");
+                return value;
+            }
+            Dictionary<int, string> ColumnData = new Dictionary<int, string>(); // 暫存讀入之每行資料
+            List<CourseRecordInfo> ResultData = new List<CourseRecordInfo>();
+            List<ChkDataInfo> ChkDataList = new List<ChkDataInfo>();
+            // 讀取需要資料
+            for (int rowIdx = 2; rowIdx <= wst.Cells.MaxDataRow; rowIdx++)
+            {
+                ColumnData.Clear();
+                for (int col = 0; col <= wst.Cells.MaxDataColumn; col++)
+                {
+                    if(wst.Cells[rowIdx, col].StringValue.Trim()!="")
+                    {
+                        ColumnData.Add(col, wst.Cells[rowIdx, col].StringValue.Trim());
+                    }
+                }
+                if(ColumnData.Count>0)
+                {
+                    string techName= ColumnData[1];
+
+                    for(int weekday=1;weekday<6;weekday++)
+                    {
+                        for(int period=1;period<8;period++)
+                        {
+                            int target= (weekday - 1) * 21 + (period + 1);
+                            if(ColumnData.ContainsKey(target))
+                            {
+                                ChkDataInfo cd= new ChkDataInfo();
+                                cd.TeacherNameList.Add(techName);
+                                
+                                cd.SubjectName = Utility.RemoveSubjectLevel(ColumnData[target]);
+
+                                cd.Period = period.ToString();
+                                cd.Week = weekday.ToString();
+                                int classTarget= (weekday - 1) * 21 + (period + 1) + 14;
+                                if(ColumnData.ContainsKey(classTarget))
+                                {
+                                    cd.ClassName = ColumnData[classTarget];
+                                }
+                                ChkDataList.Add(cd);
+                            }
+                        }
+                    }
+                }
+            }
+
+            List<ChkDataInfo> ErrorData = new List<ChkDataInfo>();
+            try
+            {
+                // 比對資料
+                foreach (ChkDataInfo cd in ChkDataList)
+                {
+                    bool isPass = false;
+                    // 比對 ischool 來比對班級+科目名稱+教師名稱
+                    foreach (CourseRecordInfo cr in data)
+                    {
+                        if ((cd.ClassName != null) && (cd.SubjectName != null) && (cd.TeacherNameList.Count > 0))
+                        {
+                            if (cr.ClassName.Contains(cd.ClassName) && CheckTeacherNameContains(cr.TeacherNameList, cd.TeacherNameList) && cr.SubjectName.Contains(cd.SubjectName))
+                            {
+                                isPass = true;
+                                ResultData.Add(AddCourseRecordInfo(cr, cd));
+                                break;
+                            }
+                        }
+                    }
+
+                    if (isPass == false)
+                        ErrorData.Add(cd);
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                MsgBox.Show(ex.Message);
+            }
+
+            // 產生至 Excel 檔案
+            value = ProcessWorkbook(value, ResultData, ErrorData);
+        
+
+            return value;
+        }
+
+        
+
+
 
         public static Workbook CourseDataParse03(Workbook wb, List<CourseRecordInfo> data)
         {
@@ -462,6 +563,8 @@ ORDER BY
 
         private static bool CheckTeacherNameContains(List<string> t1, List<string> t2)
         {
+            if(t1==null) return false;
+            if(t2==null) return false;
             bool value = false;
             IEnumerable<string> both = t1.Intersect(t2);
             if (both.Count() > 0)

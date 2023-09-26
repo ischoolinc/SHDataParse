@@ -196,5 +196,31 @@ namespace WeekCourseRecordsParse.winForm
 
             buttonEnable(true);
         }
+
+        private void btnPrase021_Click(object sender, EventArgs e)
+        {
+            
+            buttonEnable(false);
+            // 讀取解析檔
+            Workbook wb = Utility.ReadXlsFile(true);
+            
+            if (wb != null)
+            {
+                // 讀取課程資料
+                List<CourseRecordInfo> CourseRecordList = DataTransfer.GetCourseRecordListBySchoolYearSemester(SchoolYear, Semester);
+
+                //  解析資料
+                Workbook resultWb = DataTransfer.CourseDataParse021(wb, CourseRecordList);
+
+                // 輸出
+                Utility.ExportXls(SchoolYear + "學年度第" + Semester + "學期_課程週課表解析", resultWb);               
+            }
+            else
+            {
+                MsgBox.Show("讀取 Excel 檔案發生錯誤或版本過舊，要Excel 97以上版本。");
+            }
+
+            buttonEnable(true);
+        }
     }
 }

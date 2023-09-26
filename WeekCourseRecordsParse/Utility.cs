@@ -115,5 +115,16 @@ namespace WeekCourseRecordsParse
             }
             return ColIdxDic;
         }
+
+        public static string RemoveSubjectLevel(string subjectName)
+        {
+            string retVal = subjectName;
+            retVal = retVal.Replace("Ⅰ", " ");
+            retVal = retVal.Replace("Ⅲ", " ");
+            retVal = retVal.Replace("Ⅴ", " ");
+            retVal = retVal.Trim();
+            return retVal;
+        }
+
     }
 }
