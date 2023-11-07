@@ -12,6 +12,8 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Web.Script.Serialization;
 using FISCA.Presentation.Controls;
+using K12.Data;
+using FISCA.LogAgent;
 
 namespace SHScoreTools.UIForm
 {
@@ -72,6 +74,7 @@ namespace SHScoreTools.UIForm
         {
             FISCA.Presentation.MotherForm.SetStatusBarMessage("");
 
+            MsgBox.Show("刪除完成。");
             // 重新載入
             ControlEnable(false);
             _bgWorkerLoadData.RunWorkerAsync();
@@ -84,9 +87,23 @@ namespace SHScoreTools.UIForm
             // 需要刪除科目
             List<SemsScoreInfo> DelSemsScoreList = new List<SemsScoreInfo>();
 
+            // log data
+            Dictionary<string, string> logStudNameDict = new Dictionary<string, string>();
+            Dictionary<string, List<string>> LogSubjDataDict = new Dictionary<string, List<string>>();
+            // 學生資料
+            List<StudentRecord> StudRecList = Student.SelectByIDs(_StudentIDList);
+            Dictionary<string, StudentRecord> StudRecDict = new Dictionary<string, StudentRecord>();
+            foreach (StudentRecord stud in StudRecList)
+            {
+                if (!StudRecDict.ContainsKey(stud.ID))
+                    StudRecDict.Add(stud.ID, stud);
+            }
+
             // 比對刪除資料
             foreach (SemsScoreInfo ss in _SemsScoreList)
             {
+
+
                 bool isDel = false;
                 foreach (SubjInfo si in DelSubjList)
                 {
@@ -94,14 +111,114 @@ namespace SHScoreTools.UIForm
                     {
                         if (elm.Attribute("科目").Value == si.SubjectName && elm.Attribute("科目級別").Value == si.SubjectLevel)
                         {
+                            // log 科目
+                            if (!LogSubjDataDict.ContainsKey(ss.StudentID))
+                                LogSubjDataDict.Add(ss.StudentID, new List<string>());
+
+                            LogSubjDataDict[ss.StudentID].Add(string.Format("科目名稱：{0} ,科目級別：{1}", si.SubjectName, si.SubjectLevel));
+
                             elm.Remove();
                             isDel = true;
                         }
                     }
                 }
                 if (isDel)
+                {
+                    if (StudRecDict.ContainsKey(ss.StudentID))
+                    {
+                        StudentRecord stud = StudRecDict[ss.StudentID];
+                        string className = "";
+                        if (stud.Class != null)
+                            className = stud.Class.Name;
+
+                        string seta_no = "";
+                        if (stud.SeatNo.HasValue)
+                            seta_no = stud.SeatNo.Value.ToString();
+
+
+                        string strName = string.Format(@"學生系統編號：{0} ,學號：{1} ,班級:{2} ,座號:{3} ,姓名:{4} ,學年度：{5} ,學期：{6} ,年級：{7}", stud.ID, stud.StudentNumber, className, seta_no, stud.Name, ss.SchoolYear, ss.Semester, ss.GradeYear);
+
+                        if (!logStudNameDict.ContainsKey(ss.StudentID))
+                            logStudNameDict.Add(ss.StudentID, strName);
+                    }
                     DelSemsScoreList.Add(ss);
+                }
+
+
             }
+
+            _bgWorkerDelData.ReportProgress(40);
+
+            // 刪除資料
+            if (DelSemsScoreList.Count > 0)
+            {
+                Dictionary<int, List<string>> UpdateSQLDict = new Dictionary<int, List<string>>();
+                Dictionary<int, StringBuilder> UpdateLogDict = new Dictionary<int, StringBuilder>();
+
+                int i = 1, idx = 1;
+                foreach (SemsScoreInfo ss in DelSemsScoreList)
+                {
+
+                    string UpdateSQL = string.Format(@"
+                    UPDATE 
+                        sems_subj_score 
+                        SET score_info = '{0}' 
+                        WHERE id = {1}", ss.ScoreInfoXML.ToString(), ss.ID);
+
+                    // log 資料
+                    StringBuilder sb = new StringBuilder();
+                    if (logStudNameDict.ContainsKey(ss.StudentID))
+                    {
+                        sb.AppendLine(logStudNameDict[ss.StudentID]);
+                        sb.AppendLine(" == 刪除學期科目 == ");
+                    }
+                    if (LogSubjDataDict.ContainsKey(ss.StudentID))
+                    {
+                        sb.AppendLine(string.Join(",", LogSubjDataDict[ss.StudentID].ToArray()));
+                        sb.AppendLine("");
+                    }
+
+                    // 分批
+                    if (i == 1)
+                    {
+                        UpdateSQLDict.Add(idx, new List<string>());
+                        UpdateLogDict.Add(idx, new StringBuilder());
+                    }
+                    UpdateSQLDict[idx].Add(UpdateSQL);
+                    UpdateLogDict[idx].AppendLine(sb.ToString());
+
+                    if (i == 100)
+                    {
+                        i = 1;
+                        idx++;
+                    }
+                    else
+                        i++;
+
+                }
+                _bgWorkerDelData.ReportProgress(60);
+                // 更新資料
+                foreach (int key in UpdateSQLDict.Keys)
+                {
+                    try
+                    {
+                        UpdateHelper uh = new UpdateHelper();
+                        uh.Execute(UpdateSQLDict[key]);
+
+                        _bgWorkerDelData.ReportProgress(60 + (int)(40 * (key / UpdateSQLDict.Keys.Count)));
+
+                        // 紀錄log
+                        FISCA.LogAgent.ApplicationLog.Log("學期科目成績", "刪除學生學期科目成績", UpdateLogDict[key].ToString());
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+
+            }
+
 
             _bgWorkerDelData.ReportProgress(100);
         }
@@ -129,7 +246,7 @@ namespace SHScoreTools.UIForm
                 int rowIdx = dgData.Rows.Add();
                 dgData.Rows[rowIdx].Tag = AllSubjDict[key];
                 dgData.Rows[rowIdx].Cells["科目名稱"].Value = AllSubjDict[key].SubjectName;
-                dgData.Rows[rowIdx].Cells["科目級別"].Value = AllSubjDict[key].SubjectLevel;
+                dgData.Rows[rowIdx].Cells["級別"].Value = AllSubjDict[key].SubjectLevel;
             }
 
         }
@@ -144,7 +261,7 @@ namespace SHScoreTools.UIForm
                 DataGridViewCheckBoxColumn chkCol1 = new DataGridViewCheckBoxColumn();
                 chkCol1.Name = "勾選";
                 chkCol1.HeaderText = "勾選";
-                chkCol1.Width = 30;
+                chkCol1.Width = 60;
                 chkCol1.TrueValue = "是";
                 chkCol1.FalseValue = "否";
                 chkCol1.IndeterminateValue = "否";
@@ -160,9 +277,9 @@ namespace SHScoreTools.UIForm
                             ""ReadOnly"": true
                         },
                         {
-                            ""HeaderText"": ""科目級別"",
-                            ""Name"": ""科目級別"",
-                            ""Width"": 40,
+                            ""HeaderText"": ""級別"",
+                            ""Name"": ""級別"",
+                            ""Width"": 60,
                             ""ReadOnly"": true
                         }
                     ]            
@@ -228,7 +345,7 @@ namespace SHScoreTools.UIForm
 
         private void btnDel_Click(object sender, EventArgs e)
         {
-            ControlEnable(false);
+
 
             // 解析需要刪除科目
             DelSubjList.Clear();
@@ -243,6 +360,14 @@ namespace SHScoreTools.UIForm
                             DelSubjList.Add(si);
                     }
             }
+
+            if (DelSubjList.Count == 0)
+            {
+                MsgBox.Show("請勾選要刪除的科目");
+                return;
+            }
+
+            ControlEnable(false);
 
             if (MsgBox.Show("請問要刪除 " + DelSubjList.Count + " 科目成績? ", "刪除學期科目成績", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
@@ -275,7 +400,7 @@ namespace SHScoreTools.UIForm
             int sy = 0;
             int.TryParse(K12.Data.School.DefaultSchoolYear, out sy);
 
-            for (int i = sy + 1; i >= sy - 4; i--)
+            for (int i = sy ; i >= sy - 4; i--)
             {
                 comboSchoolYear.Items.Add(i + "");
             }
@@ -293,6 +418,24 @@ namespace SHScoreTools.UIForm
         private void ControlEnable(bool value)
         {
             comboSchoolYear.Enabled = comboSemester.Enabled = dgData.Enabled = btnQuery.Enabled = btnDel.Enabled = value;
+        }
+
+        private void ClearTempData()
+        {
+            dgData.Rows.Clear();
+            _SemsScoreList.Clear();
+            AllSubjDict.Clear();
+            DelSubjList.Clear();
+        }
+
+        private void comboSchoolYear_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ClearTempData();
+        }
+
+        private void comboSemester_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ClearTempData();
         }
     }
 }
