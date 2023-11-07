@@ -187,7 +187,7 @@ namespace SHScoreTools.UIForm
                     UpdateSQLDict[idx].Add(UpdateSQL);
                     UpdateLogDict[idx].AppendLine(sb.ToString());
 
-                    if (i == 100)
+                    if (i == 50)
                     {
                         i = 1;
                         idx++;
@@ -400,7 +400,7 @@ namespace SHScoreTools.UIForm
             int sy = 0;
             int.TryParse(K12.Data.School.DefaultSchoolYear, out sy);
 
-            for (int i = sy ; i >= sy - 4; i--)
+            for (int i = sy ; i >= sy - 7; i--)
             {
                 comboSchoolYear.Items.Add(i + "");
             }
