@@ -74,7 +74,7 @@ namespace SHScoreTools.UIForm
         {
             FISCA.Presentation.MotherForm.SetStatusBarMessage("");
 
-            MsgBox.Show("刪除完成。");
+            MsgBox.Show("已完成刪除，若刪除該科目會影響學期分項成績，請重新計算學期分項成績。");
             // 重新載入
             ControlEnable(false);
             _bgWorkerLoadData.RunWorkerAsync();
@@ -369,9 +369,17 @@ namespace SHScoreTools.UIForm
 
             ControlEnable(false);
 
-            if (MsgBox.Show("請問要刪除 " + DelSubjList.Count + " 科目成績? ", "刪除學期科目成績", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+            if (MsgBox.Show("您確定要刪除 " + DelSubjList.Count + " 項學期科目成績嗎？這些資料將被永久刪除，並且無法恢復。 ", "刪除學期科目成績", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
-                _bgWorkerDelData.RunWorkerAsync();
+                PasswordForm pf = new PasswordForm();
+                if (pf.ShowDialog() == DialogResult.OK)
+                {
+                    if (pf.GetPass())
+                    {
+                        _bgWorkerDelData.RunWorkerAsync();
+                    }
+                }
+
             }
 
             ControlEnable(true);
@@ -400,7 +408,7 @@ namespace SHScoreTools.UIForm
             int sy = 0;
             int.TryParse(K12.Data.School.DefaultSchoolYear, out sy);
 
-            for (int i = sy ; i >= sy - 7; i--)
+            for (int i = sy; i >= sy - 7; i--)
             {
                 comboSchoolYear.Items.Add(i + "");
             }
