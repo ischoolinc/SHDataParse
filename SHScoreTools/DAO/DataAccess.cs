@@ -56,5 +56,48 @@ namespace SHScoreTools.DAO
 
             return value;
         }
+
+        // 取得學生學年科目成績資料
+        public static List<YearScoreInfo> GetStudentYearScoreInfoBySchoolYear(string SchoolYear, List<string> StudentIDs)
+        {
+            List<YearScoreInfo> value = new List<YearScoreInfo>();
+
+            try
+            {
+                QueryHelper qh = new QueryHelper();
+                string strSQL = string.Format(@"
+                SELECT
+                    id,
+                    ref_student_id AS student_id,
+                    school_year,
+                    grade_year,
+                    score_info
+                FROM
+                    year_subj_score
+                WHERE
+                    ref_student_id IN({0})
+                    AND school_year = {1}
+                ", string.Join(",", StudentIDs.ToArray()), SchoolYear);
+
+                DataTable dt = qh.Select(strSQL);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    YearScoreInfo ss = new YearScoreInfo();
+                    ss.ID = dr["id"] + "";
+                    ss.StudentID = dr["student_id"] + "";
+                    ss.SchoolYear = dr["school_year"] + "";
+                    ss.GradeYear = dr["grade_year"] + "";
+                    ss.ScoreInfo = dr["score_info"] + "";
+                    ss.ParseScoreInfoToXML();
+                    value.Add(ss);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return value;
+        }
     }
 }
