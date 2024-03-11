@@ -71,7 +71,14 @@ namespace SHScoreTools.UIForm
         {
             FISCA.Presentation.MotherForm.SetStatusBarMessage("");
 
-            MsgBox.Show("已完成刪除。");
+            if (!e.Cancelled)
+            {
+                MsgBox.Show("已完成刪除。");
+            }
+            else
+            {
+                MsgBox.Show("未有需要刪除的學年成績!");
+            }
             // 重新載入
             ControlEnable(false);
             _bgWorkerLoadData.RunWorkerAsync();
@@ -215,6 +222,10 @@ namespace SHScoreTools.UIForm
                 }
 
             }
+            else
+            {
+                e.Cancel = true;
+            }
 
 
             _bgWorkerDelData.ReportProgress(100);
@@ -269,7 +280,7 @@ namespace SHScoreTools.UIForm
                         {
                             ""HeaderText"": ""科目名稱"",
                             ""Name"": ""科目名稱"",
-                            ""Width"": 300,
+                            ""Width"": 400,
                             ""ReadOnly"": true
                         }
                     ]            

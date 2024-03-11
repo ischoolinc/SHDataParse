@@ -46,7 +46,7 @@
             // 
             this.labelX1.BackgroundStyle.Class = "";
             this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX1.Location = new System.Drawing.Point(12, 12);
+            this.labelX1.Location = new System.Drawing.Point(21, 12);
             this.labelX1.Name = "labelX1";
             this.labelX1.Size = new System.Drawing.Size(54, 23);
             this.labelX1.TabIndex = 0;
@@ -57,7 +57,7 @@
             this.btnQuery.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.btnQuery.BackColor = System.Drawing.Color.Transparent;
             this.btnQuery.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnQuery.Location = new System.Drawing.Point(145, 12);
+            this.btnQuery.Location = new System.Drawing.Point(154, 12);
             this.btnQuery.Name = "btnQuery";
             this.btnQuery.Size = new System.Drawing.Size(75, 23);
             this.btnQuery.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -71,7 +71,7 @@
             this.btnDel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDel.BackColor = System.Drawing.Color.Transparent;
             this.btnDel.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnDel.Location = new System.Drawing.Point(349, 341);
+            this.btnDel.Location = new System.Drawing.Point(282, 341);
             this.btnDel.Name = "btnDel";
             this.btnDel.Size = new System.Drawing.Size(75, 23);
             this.btnDel.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -85,7 +85,7 @@
             this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExit.BackColor = System.Drawing.Color.Transparent;
             this.btnExit.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnExit.Location = new System.Drawing.Point(430, 341);
+            this.btnExit.Location = new System.Drawing.Point(363, 341);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(75, 23);
             this.btnExit.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -99,7 +99,7 @@
             this.comboSchoolYear.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.comboSchoolYear.FormattingEnabled = true;
             this.comboSchoolYear.ItemHeight = 19;
-            this.comboSchoolYear.Location = new System.Drawing.Point(62, 11);
+            this.comboSchoolYear.Location = new System.Drawing.Point(71, 11);
             this.comboSchoolYear.Name = "comboSchoolYear";
             this.comboSchoolYear.Size = new System.Drawing.Size(71, 25);
             this.comboSchoolYear.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -125,18 +125,18 @@
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgData.DefaultCellStyle = dataGridViewCellStyle1;
             this.dgData.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(215)))), ((int)(((byte)(229)))));
-            this.dgData.Location = new System.Drawing.Point(12, 48);
+            this.dgData.Location = new System.Drawing.Point(21, 48);
             this.dgData.Name = "dgData";
             this.dgData.RowHeadersVisible = false;
             this.dgData.RowTemplate.Height = 24;
-            this.dgData.Size = new System.Drawing.Size(493, 282);
+            this.dgData.Size = new System.Drawing.Size(417, 282);
             this.dgData.TabIndex = 7;
             // 
             // frmDeleteSHYearSubjectScore
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(517, 376);
+            this.ClientSize = new System.Drawing.Size(459, 376);
             this.Controls.Add(this.dgData);
             this.Controls.Add(this.comboSchoolYear);
             this.Controls.Add(this.btnExit);
