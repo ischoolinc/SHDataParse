@@ -158,12 +158,23 @@ namespace SHScoreTools.UIForm
                 int i = 1, idx = 1;
                 foreach (SemsScoreInfo ss in DelSemsScoreList)
                 {
-
-                    string UpdateSQL = string.Format(@"
+                    // 當科目資料為空時，刪除該筆資料
+                    string UpdateSQL = "";
+                    if (ss.ScoreInfoXML.Elements("Subject").Count() == 0)
+                    {
+                        UpdateSQL = string.Format(@"
+                    DELETE FROM  
+                        sems_subj_score                         
+                        WHERE id = {0}", ss.ID);
+                    }
+                    else
+                    {
+                        UpdateSQL = string.Format(@"
                     UPDATE 
                         sems_subj_score 
                         SET score_info = '{0}' 
                         WHERE id = {1}", ss.ScoreInfoXML.ToString(), ss.ID);
+                    }
 
                     // log 資料
                     StringBuilder sb = new StringBuilder();

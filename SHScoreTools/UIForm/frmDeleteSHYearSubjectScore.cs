@@ -162,12 +162,25 @@ namespace SHScoreTools.UIForm
                 int i = 1, idx = 1;
                 foreach (YearScoreInfo ss in DelYearScoreList)
                 {
-
-                    string UpdateSQL = string.Format(@"
+                    string UpdateSQL = "";
+                    // 判斷沒有成績就刪除資料
+                    if (ss.ScoreInfoXML.Elements("Subject").Count() == 0)
+                    {
+                        // 沒有科目成績刪除
+                        UpdateSQL = string.Format(@"
+                    DELETE FROM 
+                        year_subj_score                         
+                        WHERE id = {0}", ss.ID);
+                    }
+                    else
+                    {
+                        // 更新資料
+                        UpdateSQL = string.Format(@"
                     UPDATE 
                         year_subj_score 
                         SET score_info = '{0}' 
                         WHERE id = {1}", ss.ScoreInfoXML.ToString(), ss.ID);
+                    }
 
                     // log 資料
                     StringBuilder sb = new StringBuilder();
