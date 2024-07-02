@@ -13,7 +13,7 @@ using SHSchool_class_semester_history.DAO;
 
 namespace SHSchool_class_semester_history.DetailContent
 {
-    [FISCA.Permission.FeatureCode("5F410BE9-9634-470B-ACD5-ADB8AC8CCB87", "班級歷程")]
+    [FISCA.Permission.FeatureCode("5F410BE9-9634-470B-ACD5-ADB8AC8CCB87", "班級歷程資料")]
     public partial class ClassSemesterHistoryContent : FISCA.Presentation.DetailContent
     {
         private ChangeListener _ChangeListener;
@@ -21,7 +21,7 @@ namespace SHSchool_class_semester_history.DetailContent
         EventHandler eh;
         string EventCode = "SHSchool_class_semester_history";
 
-        // 班級歷程
+        // 班級歷程資料
         List<udtClassSemesterHistory> ClassSemesterHistory;
         bool _isBusy = false;
         BackgroundWorker _bgWorker;
@@ -32,7 +32,7 @@ namespace SHSchool_class_semester_history.DetailContent
             InitializeComponent();
             _ChangeListener = new ChangeListener();
             ClassSemesterHistory = new List<udtClassSemesterHistory>();
-            this.Group = "班級歷程";
+            this.Group = "班級歷程資料";
             _bgWorker = new BackgroundWorker();
             _bgWorker.DoWork += _bgWorker_DoWork;
             _bgWorker.RunWorkerCompleted += _bgWorker_RunWorkerCompleted;
@@ -43,6 +43,12 @@ namespace SHSchool_class_semester_history.DetailContent
 
             //啟動更新事件
             eh = FISCA.InteractionService.PublishEvent(EventCode);
+
+            FISCA.InteractionService.SubscribeEvent("SHSchool_class_semester_history", (sender, args) =>
+            {
+                ReloadData();
+            });
+
         }
 
         private void _ChangeListener_StatusChanged(object sender, ChangeEventArgs e)
@@ -64,7 +70,7 @@ namespace SHSchool_class_semester_history.DetailContent
 
         private void _bgWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            // 依班級 ID 取得班級歷程
+            // 依班級 ID 取得班級歷程資料
             ClassSemesterHistory = UDTTransfer.GetClassSemesterHistoryByClassID(PrimaryKey);
         }
 
@@ -101,6 +107,11 @@ namespace SHSchool_class_semester_history.DetailContent
         }
 
         protected override void OnPrimaryKeyChanged(EventArgs e)
+        {
+            ReloadData();
+        }
+
+        private void ReloadData()
         {
             this.Loading = true;
             this.CancelButtonVisible = false;

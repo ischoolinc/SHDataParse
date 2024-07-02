@@ -76,18 +76,26 @@
             // 
             // colSchoolYear
             // 
+            this.colSchoolYear.FillWeight = 80F;
+            this.colSchoolYear.Frozen = true;
             this.colSchoolYear.HeaderText = "學年度";
             this.colSchoolYear.Name = "colSchoolYear";
+            this.colSchoolYear.Width = 80;
             // 
             // colSemester
             // 
+            this.colSemester.FillWeight = 60F;
+            this.colSemester.Frozen = true;
             this.colSemester.HeaderText = "學期";
             this.colSemester.Name = "colSemester";
+            this.colSemester.Width = 60;
             // 
             // colGradeYear
             // 
+            this.colGradeYear.FillWeight = 60F;
             this.colGradeYear.HeaderText = "年級";
             this.colGradeYear.Name = "colGradeYear";
+            this.colGradeYear.Width = 60;
             // 
             // colDeptName
             // 
@@ -98,6 +106,7 @@
             // 
             this.colClassName.HeaderText = "班級名稱";
             this.colClassName.Name = "colClassName";
+            this.colClassName.Width = 120;
             // 
             // colClassTeacher
             // 
@@ -108,6 +117,7 @@
             // 
             this.colClassID.HeaderText = "班級系統編號";
             this.colClassID.Name = "colClassID";
+            this.colClassID.Width = 110;
             // 
             // colClassNumber
             // 

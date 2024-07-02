@@ -9,6 +9,7 @@ using FISCA.Presentation;
 using K12.Presentation;
 using System.ComponentModel;
 using SHSchool_class_semester_history.DAO;
+using SHSchool_class_semester_history.UIForm;
 
 namespace SHSchool_class_semester_history
 {
@@ -28,10 +29,13 @@ namespace SHSchool_class_semester_history
 
 
             //FISCA.Permission.UserAcl.Current["791D9F02-F305-48BF-9FC5-B500363D74CE"].Executable;
-            K12.Presentation.NLDPanels.Class.ListPaneContexMenu["產生班級歷程"].Click += delegate {
+            K12.Presentation.NLDPanels.Class.ListPaneContexMenu["產生班級歷程資料"].Click += delegate
+            {
                 if (K12.Presentation.NLDPanels.Class.SelectedSource.Count > 0)
                 {
-              
+                    frmCreateClassSemsHistory fc = new frmCreateClassSemsHistory();
+                    fc.SetClassIDs(K12.Presentation.NLDPanels.Class.SelectedSource);
+                    fc.ShowDialog();
                 }
             };
         }
@@ -50,6 +54,6 @@ namespace SHSchool_class_semester_history
         private static void _bgLLoadUDT_DoWork(object sender, DoWorkEventArgs e)
         {
             UDTTransfer.CreateUDTTable();
-        }      
+        }
     }
 }
