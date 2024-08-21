@@ -63,49 +63,49 @@ namespace SetStudentStandard.DAO
 
                         if (decimal.TryParse(GetAttribute(elm, "一年級及格標準"), out gp1))
                         {
-                            if (gp1 < Grade1PassingStandard)
+                            if (Grade1PassingStandard.HasValue == false || gp1 < Grade1PassingStandard)
                                 Grade1PassingStandard = gp1;
                         }
 
                         if (decimal.TryParse(GetAttribute(elm, "二年級及格標準"), out gp2))
                         {
-                            if (gp2 < Grade2PassingStandard)
+                            if (Grade2PassingStandard.HasValue == false || gp2 < Grade2PassingStandard)
                                 Grade2PassingStandard = gp2;
                         }
 
                         if (decimal.TryParse(GetAttribute(elm, "三年級及格標準"), out gp3))
                         {
-                            if (gp3 < Grade3PassingStandard)
+                            if (Grade3PassingStandard.HasValue == false || gp3 < Grade3PassingStandard)
                                 Grade3PassingStandard = gp3;
                         }
 
                         if (decimal.TryParse(GetAttribute(elm, "四年級及格標準"), out gp4))
                         {
-                            if (gp4 < Grade4PassingStandard)
+                            if (Grade4PassingStandard.HasValue == false || gp4 < Grade4PassingStandard)
                                 Grade4PassingStandard = gp4;
                         }
 
                         if (decimal.TryParse(GetAttribute(elm, "一年級補考標準"), out gm1))
                         {
-                            if (gm1 < Grade1MakeupStandard)
+                            if (Grade1MakeupStandard.HasValue || gm1 < Grade1MakeupStandard)
                                 Grade1MakeupStandard = gm1;
                         }
 
                         if (decimal.TryParse(GetAttribute(elm, "二年級補考標準"), out gm2))
                         {
-                            if (gm2 < Grade2MakeupStandard)
+                            if (Grade2MakeupStandard.HasValue == false || gm2 < Grade2MakeupStandard)
                                 Grade2MakeupStandard = gm2;
                         }
 
                         if (decimal.TryParse(GetAttribute(elm, "三年級補考標準"), out gm3))
                         {
-                            if (gm3 < Grade3MakeupStandard)
+                            if (Grade3MakeupStandard.HasValue ==false || gm3 < Grade3MakeupStandard)
                                 Grade3MakeupStandard = gm3;
                         }
 
                         if (decimal.TryParse(GetAttribute(elm, "四年級補考標準"), out gm4))
                         {
-                            if (gm4 < Grade4MakeupStandard)
+                            if (Grade4MakeupStandard.HasValue == false || gm4 < Grade4MakeupStandard)
                                 Grade4MakeupStandard = gm4;
                         }
                     }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FISCA.Presentation.Controls;
+using K12.Data;
 using SetStudentStandard.DAO;
 
 namespace SetStudentStandard.UIForm
@@ -50,6 +51,7 @@ namespace SetStudentStandard.UIForm
         {
             btnCreate.Enabled = true;
             FISCA.Presentation.MotherForm.SetStatusBarMessage("");
+            FISCA.Features.Invoke("CourseSyncAllBackground");
             MsgBox.Show("產生完成");
             this.Close();
         }
@@ -61,6 +63,7 @@ namespace SetStudentStandard.UIForm
 
         private void BgWorkerCreateData_DoWork(object sender, DoWorkEventArgs e)
         {
+            bgWorkerCreateData.ReportProgress(10);
             // 取得所選修課的學生系統編號
             List<string> StudentIDs = new List<string>();
             // 需要更新修課及格補考標準的學生
@@ -79,9 +82,10 @@ namespace SetStudentStandard.UIForm
             // 取得學生成績計算規則，年級與及格標準
             Dictionary<string, StudentScoreRuleInfo> StudentScoreRuleDict = DataAccess.GetStudentScoreRuleInfoDictByIDs(StudentIDs);
 
+            bgWorkerCreateData.ReportProgress(30);
 
             List<SCAttendInfo> updateInfoList = new List<SCAttendInfo>();
-            
+
             // 覆蓋資料
             foreach (string cid in SCAttendDict.Keys)
             {
@@ -130,10 +134,10 @@ namespace SetStudentStandard.UIForm
                     }
                 }
             }
-
+            bgWorkerCreateData.ReportProgress(60);
             // 更新及格與補考標準
             DataAccess.UpdateSCAttendData(updateInfoList);
-
+            bgWorkerCreateData.ReportProgress(100);
         }
 
         private void BgWorkerCheckHasData_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -148,9 +152,16 @@ namespace SetStudentStandard.UIForm
                     // 覆蓋資料
                     bgWorkerCreateData.RunWorkerAsync();
                 }
+                else
+                {
+                    btnCreate.Enabled = true;
+                }
             }
-
-            btnCreate.Enabled = true;
+            // 沒有資料，直接寫入
+            else
+            {
+                bgWorkerCreateData.RunWorkerAsync();
+            }
         }
 
         private void BgWorkerCheckHasData_ProgressChanged(object sender, ProgressChangedEventArgs e)

@@ -377,9 +377,8 @@ namespace SetStudentStandard.DAO
                         sc_attend
                     SET
                         passing_standard = {0},
-                        makeup_standard = {1}
-                    WHERE
-                        WHERE id = {2} ;
+                        makeup_standard = {1}                    
+                    WHERE id = {2} ;
                     ", sc.PassStandard.Value, sc.MakeupStandard.Value, sc.SCAttendID);
                     updateSQL.Add(sql);
                 }
