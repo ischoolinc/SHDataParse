@@ -87,7 +87,7 @@ namespace SetStudentStandard.DAO
 
                         if (decimal.TryParse(GetAttribute(elm, "一年級補考標準"), out gm1))
                         {
-                            if (Grade1MakeupStandard.HasValue || gm1 < Grade1MakeupStandard)
+                            if (Grade1MakeupStandard.HasValue == false || gm1 < Grade1MakeupStandard)
                                 Grade1MakeupStandard = gm1;
                         }
 
