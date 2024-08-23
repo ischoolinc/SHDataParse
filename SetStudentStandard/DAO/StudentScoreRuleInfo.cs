@@ -42,6 +42,10 @@ namespace SetStudentStandard.DAO
         // 學生成績計算規則 XML
         public XElement ScoreCalcRuleXml { get; set; }
 
+        // 使用學生類別名稱
+        public string UseStudentTagName { get; set; }
+
+
         // 解析及格與補考表準
         public void ParsePassingMakeupStandard()
         {
@@ -64,25 +68,39 @@ namespace SetStudentStandard.DAO
                         if (decimal.TryParse(GetAttribute(elm, "一年級及格標準"), out gp1))
                         {
                             if (Grade1PassingStandard.HasValue == false || gp1 < Grade1PassingStandard)
+                            {
                                 Grade1PassingStandard = gp1;
+                                UseStudentTagName = tagName;
+                            }
+                                
                         }
 
                         if (decimal.TryParse(GetAttribute(elm, "二年級及格標準"), out gp2))
                         {
                             if (Grade2PassingStandard.HasValue == false || gp2 < Grade2PassingStandard)
+                            {
                                 Grade2PassingStandard = gp2;
+                                UseStudentTagName = tagName;
+                            }
+                                
                         }
 
                         if (decimal.TryParse(GetAttribute(elm, "三年級及格標準"), out gp3))
                         {
                             if (Grade3PassingStandard.HasValue == false || gp3 < Grade3PassingStandard)
+                            {
                                 Grade3PassingStandard = gp3;
+                                UseStudentTagName = tagName;
+                            }
                         }
 
                         if (decimal.TryParse(GetAttribute(elm, "四年級及格標準"), out gp4))
                         {
                             if (Grade4PassingStandard.HasValue == false || gp4 < Grade4PassingStandard)
+                            {
                                 Grade4PassingStandard = gp4;
+                                UseStudentTagName = tagName;
+                            }
                         }
 
                         if (decimal.TryParse(GetAttribute(elm, "一年級補考標準"), out gm1))

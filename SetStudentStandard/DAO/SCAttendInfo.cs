@@ -50,5 +50,8 @@ namespace SetStudentStandard.DAO
 
         // 補考標準
         public decimal? MakeupStandard { get; set; }
+
+        // 學生修課備註
+        public string SCComment { get; set; }
     }
 }

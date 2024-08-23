@@ -61,6 +61,16 @@ namespace SetStudentStandard.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap calc_save_64 {
+            get {
+                object obj = ResourceManager.GetObject("calc_save_64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] 已有修課及格補考標準樣板 {

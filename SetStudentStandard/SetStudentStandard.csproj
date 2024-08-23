@@ -171,6 +171,7 @@
     <Content Include="Library\SmartSchool.ErrorReporting.dll" />
     <Content Include="Library\SmartSchool.ErrorReporting.pdb" />
     <Content Include="Library\SmartSchool.ErrorReporting.xml" />
+    <None Include="Resources\calc_save_64.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Template\已有修課及格補考標準樣板.xlsx" />

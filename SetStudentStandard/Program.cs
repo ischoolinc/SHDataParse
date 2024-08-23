@@ -15,6 +15,8 @@ namespace SetStudentStandard
         {
             string regCode = "ab9bad6e-cff4-4b8b-b51a-fe57230df68d";
             RibbonBarItem rptItem = MotherForm.RibbonBarItems["課程", "教務"];
+            rptItem["產生及格補考標準"].Image = Properties.Resources.calc_save_64;
+            rptItem["產生及格補考標準"].Size = RibbonBarButton.MenuButtonSize.Medium;
             rptItem["產生及格補考標準"].Enable = UserAcl.Current[regCode].Executable;
             rptItem["產生及格補考標準"].Click += delegate
             {

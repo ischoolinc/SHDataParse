@@ -130,6 +130,21 @@ namespace SetStudentStandard.UIForm
                             if (StudentScoreRuleDict[si.StudentID].Grade4MakeupStandard.HasValue)
                                 si.MakeupStandard = StudentScoreRuleDict[si.StudentID].Grade4MakeupStandard.Value;
                         }
+
+                        // 寫入備註，預設不寫入
+                        if (StudentScoreRuleDict[si.StudentID].UseStudentTagName != "預設")
+                        {
+                            string comment = "學生身分：" + StudentScoreRuleDict[si.StudentID].UseStudentTagName;
+
+                            if (!si.SCComment.Contains(comment))
+                            {
+                                if (si.SCComment == "")
+                                    si.SCComment = comment;
+                                else
+                                    si.SCComment += "," + comment;
+                            }
+                        }
+
                         updateInfoList.Add(si);
                     }
                 }

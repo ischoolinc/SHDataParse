@@ -39,7 +39,8 @@ namespace SetStudentStandard.DAO
                         class.class_name AS class_name,
                         student.seat_no AS seat_no,
                         sc_attend.passing_standard,
-                        sc_attend.makeup_standard
+                        sc_attend.makeup_standard,
+                        sc_attend.remark AS sc_comment
                     FROM
                         student
                         INNER JOIN sc_attend ON student.id = sc_attend.ref_student_id
@@ -68,7 +69,8 @@ namespace SetStudentStandard.DAO
                             course.subj_level AS subj_level,
                             class.class_name AS class_name,
                             sc_attend.passing_standard,
-                            sc_attend.makeup_standard
+                            sc_attend.makeup_standard,
+                            sc_attend.remark AS sc_comment
                         FROM
                             student
                             INNER JOIN sc_attend ON student.id = sc_attend.ref_student_id
@@ -184,6 +186,9 @@ namespace SetStudentStandard.DAO
 
                     // student.seat_no AS seat_no,
                     sc.SeatNo = dr["seat_no"] + "";
+
+                    // sc_attend.remark AS sc_comment
+                    sc.SCComment = dr["sc_comment"] + "";
 
                     decimal passing_standard;
                     // sc_attend.passing_standard,
@@ -377,14 +382,15 @@ namespace SetStudentStandard.DAO
                         sc_attend
                     SET
                         passing_standard = {0},
-                        makeup_standard = {1}                    
-                    WHERE id = {2} ;
-                    ", sc.PassStandard.Value, sc.MakeupStandard.Value, sc.SCAttendID);
+                        makeup_standard = {1},
+                        remark='{2}' 
+                    WHERE id = {3} ;
+                    ", sc.PassStandard.Value, sc.MakeupStandard.Value, sc.SCComment, sc.SCAttendID);
                     updateSQL.Add(sql);
                 }
                 K12.Data.UpdateHelper uh = new K12.Data.UpdateHelper();
                 uh.Execute(updateSQL);
-                
+
             }
             catch (Exception ex)
             {

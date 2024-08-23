@@ -80,6 +80,8 @@ namespace SetStudentStandard.UIForm
                 if (rec.MakeupStandard.HasValue)
                     WriteValue(wst, rowIdx, colIdx, "補考標準", rec.MakeupStandard.Value + "");
 
+                WriteValue(wst, rowIdx, colIdx, "備註", rec.SCComment);
+
                 rowIdx++;
             }
 
