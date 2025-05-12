@@ -282,7 +282,7 @@ namespace SetStudentStandard.DAO
                         student
                         LEFT JOIN class ON student.ref_class_id = class.id
                     WHERE
-                        student.id IN({0})
+                        student.id IN({0}) AND student.status IN(1,2) 
                 )
                 SELECT
                     student_rule_id.*,
@@ -377,6 +377,13 @@ namespace SetStudentStandard.DAO
                 List<string> updateSQL = new List<string>();
                 foreach (SCAttendInfo sc in SCAttendInfoList)
                 {
+                    if (sc.PassStandard.HasValue ==false || sc.MakeupStandard.HasValue == false)
+                    {
+                        // 沒有及格或補考標準，跳過不處理
+                        continue;
+                        //Console.WriteLine(sc.StudentID);
+                    }
+
                     string sql = string.Format(@"
                     UPDATE
                         sc_attend
