@@ -87,30 +87,6 @@
             <param name="icon">系統圖示</param>
             <param name="loginFormLogo">內建登入畫面顯示LOGO</param>
         </member>
-        <member name="M:FISCA.AppInfo.#ctor(System.String,System.Drawing.Image,System.Drawing.Image)">
-            <summary>
-            建構子
-            </summary>
-            <param name="kernelURL">核心組件更新URL</param>
-            <param name="icon">系統圖示</param>
-            <param name="loginFormLogo">內建登入畫面顯示LOGO</param>
-        </member>
-        <member name="M:FISCA.AppInfo.#ctor(System.String,System.Drawing.Icon,System.Windows.Forms.Form)">
-            <summary>
-            建構子
-            </summary>
-            <param name="kernelURL">核心組件更新URL</param>
-            <param name="icon">系統圖示</param>
-            <param name="loginForm">自訂登入畫面</param>
-        </member>
-        <member name="M:FISCA.AppInfo.#ctor(System.String,System.Drawing.Image,System.Windows.Forms.Form)">
-            <summary>
-            建構子
-            </summary>
-            <param name="kernelURL">核心組件更新URL</param>
-            <param name="icon">系統圖示</param>
-            <param name="loginForm">自訂登入畫面</param>
-        </member>
         <member name="T:FISCA.ApplicationMainAttribute">
             <summary>
             代表應用程式進入點，在系統啟動過程中，會是第一個被執行的方法。
@@ -265,164 +241,92 @@
             <param name="assemblyFile"></param>
             <returns></returns>
         </member>
-        <member name="T:FISCA.ChromeHelper">
+        <member name="T:FISCA.CensorToken">
+            <summary>
+            檢查登入狀態
+            </summary>
+        </member>
+        <member name="T:FISCA.CensorToken.Censor">
+            <summary>
+            狀態
+            </summary>
+        </member>
+        <member name="F:FISCA.CensorToken.Censor.Success">
+            <summary>
+            登入認證成功
+            </summary>
+        </member>
+        <member name="F:FISCA.CensorToken.Censor.Fail">
+            <summary>
+            登入失敗
+            </summary>
+        </member>
+        <member name="F:FISCA.CensorToken.Censor.NotGreening">
+            <summary>
+            不是Greening帳號
+            </summary>
+        </member>
+        <member name="F:FISCA.CensorToken.Censor.SuccessNotSuperAdmin">
+            <summary>
+            登入認證成功(但不是超級使用者)
+            </summary>
+        </member>
+        <member name="M:FISCA.CensorToken.CheckIdentity">
+            <summary>
+            檢查認證登入身分是否相同
+            </summary>
+        </member>
+        <member name="M:FISCA.CensorToken.LoginSSO(System.String)">
+            <summary>
+            用DSNS驗證登入的身分
+            </summary>
+        </member>
+        <member name="T:FISCA.CensorMessage">
+            <summary>
+            驗證狀態
+            </summary>
+        </member>
+        <member name="P:FISCA.CensorMessage.Message">
+            <summary>
+            訊息內容
+            </summary>
+        </member>
+        <member name="P:FISCA.CensorMessage.censor">
+            <summary>
+            狀態
+            </summary>
+        </member>
+        <member name="T:FISCA.Internal.LoginFormCheckUser">
+            <summary>
+            Support 1campus.net SSSO
+            </summary>
+        </member>
+        <member name="F:FISCA.Internal.LoginFormCheckUser.GoogleSSO">
+            <summary>
+            是否直接顯示 Google 登入畫面。
+            </summary>
+        </member>
+        <member name="M:FISCA.Internal.LoginFormCheckUser.#ctor(System.String,System.Boolean)">
             <summary>
             
             </summary>
         </member>
-        <member name="M:FISCA.ChromeHelper.InitCore">
+        <member name="F:FISCA.Internal.LoginFormCheckUser.components">
             <summary>
-            
+            Required designer variable.
             </summary>
         </member>
-        <member name="T:FISCA.CustomizationService">
+        <member name="M:FISCA.Internal.LoginFormCheckUser.Dispose(System.Boolean)">
             <summary>
-            Customize Discovery Service，提供註冊與尋找自定化型別。
+            Clean up any resources being used.
             </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         </member>
-        <member name="M:FISCA.CustomizationService.#ctor">
+        <member name="M:FISCA.Internal.LoginFormCheckUser.InitializeComponent">
             <summary>
-            建立 CDManager。
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
             </summary>
-        </member>
-        <member name="M:FISCA.CustomizationService.PrivateRegister``1(``0)">
-            <summary>
-            註冊自定化型別。
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="customize"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FISCA.CustomizationService.Register``1(``0)">
-            <summary>
-            註冊自定化型別。
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="customize"></param>
-        </member>
-        <member name="M:FISCA.CustomizationService.PrivateDiscover``1">
-            <summary>
-            尋找自定化型別。
-            </summary>
-            <typeparam name="T"></typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:FISCA.CustomizationService.Discover``1">
-            <summary>
-            尋找自定化型別。
-            </summary>
-            <typeparam name="T"></typeparam>
-            <returns></returns>
-        </member>
-        <member name="T:FISCA.ErrorBox">
-            <summary>
-            用於顯示錯誤訊息。
-            </summary>
-        </member>
-        <member name="M:FISCA.ErrorBox.Show(System.String,System.Exception)">
-            <summary>
-            
-            </summary>
-            <param name="message"></param>
-            <param name="ex"></param>
-        </member>
-        <member name="M:FISCA.ErrorBox.Show(System.Windows.Forms.IWin32Window,System.String,System.Exception)">
-            <summary>
-            
-            </summary>
-            <param name="owner"></param>
-            <param name="message"></param>
-            <param name="ex"></param>
-        </member>
-        <member name="M:FISCA.ErrorBox.Show(System.String,System.String)">
-            <summary>
-            
-            </summary>
-            <param name="message"></param>
-            <param name="detail"></param>
-        </member>
-        <member name="M:FISCA.ErrorBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String)">
-            <summary>
-            
-            </summary>
-            <param name="owner"></param>
-            <param name="message"></param>
-            <param name="detail"></param>
-        </member>
-        <member name="T:FISCA.ILayoutProvider">
-            <summary>
-            是供 Layout 相關資訊。
-            </summary>
-        </member>
-        <member name="P:FISCA.ILayoutProvider.LayoutDescription">
-            <summary>
-            取得 Layout 描述的內容。
-            </summary>
-        </member>
-        <member name="T:FISCA.ILoginScreenFactory">
-            <summary>
-            代表登入畫面。
-            </summary>
-        </member>
-        <member name="M:FISCA.ILoginScreenFactory.Create">
-            <summary>
-            建立一個新的登入畫面。
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:FISCA.InteractionService">
-            <summary>
-            提供模組之間溝通的機制。
-            </summary>
-        </member>
-        <member name="M:FISCA.InteractionService.PublishEvent(System.String)">
-            <summary>
-            公開一個事件，讓其他模組可以訂閱。
-            </summary>
-            <param name="eventCode">事件代碼，讓其他模組可以透過代碼訂閱此事件。</param>
-            <returns></returns>
-        </member>
-        <member name="M:FISCA.InteractionService.SubscribeEvent(System.String,System.EventHandler)">
-            <summary>
-            訂閱公開事件。
-            </summary>
-            <param name="eventCode">要訂閱的事件代碼。</param>
-            <param name="handler">事件處理函式。</param>
-        </member>
-        <member name="M:FISCA.InteractionService.UnsubscribeEvent(System.String,System.EventHandler)">
-            <summary>
-            取消訂閱公開事件。
-            </summary>
-            <param name="eventCode">要取消訂閱的事件代碼。</param>
-            <param name="handler">要取消的事件處理函式。</param>
-        </member>
-        <member name="M:FISCA.InteractionService.RegisterAPI``1(``0)">
-            <summary>
-            讓其模組可以延申與自定化模組。
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="instance"></param>
-        </member>
-        <member name="M:FISCA.InteractionService.RegisterAPI(System.String,System.Dynamic.DynamicObject)">
-            <summary>
-            讓其模組可以延申與自定化模組。
-            </summary>
-            <param name="name"></param>
-            <param name="instance"></param>
-        </member>
-        <member name="M:FISCA.InteractionService.DiscoverAPI``1">
-            <summary>
-            尋找一個特定型別的 API。
-            </summary>
-            <typeparam name="T"></typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:FISCA.InteractionService.DiscoverAPI(System.String)">
-            <summary>
-            尋找一個公開的 API。
-            </summary>
-            <param name="name"></param>
-            <returns></returns>
         </member>
         <member name="F:FISCA.Internal.AboutInformation.components">
             <summary>
@@ -470,6 +374,70 @@
             <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         </member>
         <member name="M:FISCA.Internal.HttpTripList.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:FISCA.Internal.LoginFormSSO">
+            <summary>
+            Support 1campus.net SSSO
+            </summary>
+        </member>
+        <member name="F:FISCA.Internal.LoginFormSSO.GoogleSSO">
+            <summary>
+            是否直接顯示 Google 登入畫面。
+            </summary>
+        </member>
+        <member name="M:FISCA.Internal.LoginFormSSO.#ctor(System.String,System.Boolean)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:FISCA.Internal.LoginFormSSO.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:FISCA.Internal.LoginFormSSO.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:FISCA.Internal.LoginFormSSO.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:FISCA.Internal.LoginFormDSNS">
+            <summary>
+            Support 1campus.net SSSO
+            </summary>
+        </member>
+        <member name="F:FISCA.Internal.LoginFormDSNS.GoogleSSO">
+            <summary>
+            是否直接顯示 Google 登入畫面。
+            </summary>
+        </member>
+        <member name="M:FISCA.Internal.LoginFormDSNS.#ctor(System.String,System.Boolean)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:FISCA.Internal.LoginFormDSNS.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:FISCA.Internal.LoginFormDSNS.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:FISCA.Internal.LoginFormDSNS.InitializeComponent">
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
@@ -1218,6 +1186,257 @@
             
              </summary>
         </member>
+        <member name="T:FISCA.ChromeHelper">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:FISCA.ChromeHelper.InitCore">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:FISCA.CustomizationService">
+            <summary>
+            Customize Discovery Service，提供註冊與尋找自定化型別。
+            </summary>
+        </member>
+        <member name="M:FISCA.CustomizationService.#ctor">
+            <summary>
+            建立 CDManager。
+            </summary>
+        </member>
+        <member name="M:FISCA.CustomizationService.PrivateRegister``1(``0)">
+            <summary>
+            註冊自定化型別。
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="customize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FISCA.CustomizationService.Register``1(``0)">
+            <summary>
+            註冊自定化型別。
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="customize"></param>
+        </member>
+        <member name="M:FISCA.CustomizationService.PrivateDiscover``1">
+            <summary>
+            尋找自定化型別。
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:FISCA.CustomizationService.Discover``1">
+            <summary>
+            尋找自定化型別。
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="T:FISCA.ErrorBox">
+            <summary>
+            用於顯示錯誤訊息。
+            </summary>
+        </member>
+        <member name="M:FISCA.ErrorBox.Show(System.String,System.Exception)">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+            <param name="ex"></param>
+        </member>
+        <member name="M:FISCA.ErrorBox.Show(System.Windows.Forms.IWin32Window,System.String,System.Exception)">
+            <summary>
+            
+            </summary>
+            <param name="owner"></param>
+            <param name="message"></param>
+            <param name="ex"></param>
+        </member>
+        <member name="M:FISCA.ErrorBox.Show(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+            <param name="detail"></param>
+        </member>
+        <member name="M:FISCA.ErrorBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="owner"></param>
+            <param name="message"></param>
+            <param name="detail"></param>
+        </member>
+        <member name="T:FISCA.ILayoutProvider">
+            <summary>
+            是供 Layout 相關資訊。
+            </summary>
+        </member>
+        <member name="P:FISCA.ILayoutProvider.LayoutDescription">
+            <summary>
+            取得 Layout 描述的內容。
+            </summary>
+        </member>
+        <member name="T:FISCA.ILoginScreenFactory">
+            <summary>
+            代表登入畫面。
+            </summary>
+        </member>
+        <member name="M:FISCA.ILoginScreenFactory.Create">
+            <summary>
+            建立一個新的登入畫面。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:FISCA.InteractionService">
+            <summary>
+            提供模組之間溝通的機制。
+            </summary>
+        </member>
+        <member name="M:FISCA.InteractionService.PublishEvent(System.String)">
+            <summary>
+            公開一個事件，讓其他模組可以訂閱。
+            </summary>
+            <param name="eventCode">事件代碼，讓其他模組可以透過代碼訂閱此事件。</param>
+            <returns></returns>
+        </member>
+        <member name="M:FISCA.InteractionService.SubscribeEvent(System.String,System.EventHandler)">
+            <summary>
+            訂閱公開事件。
+            </summary>
+            <param name="eventCode">要訂閱的事件代碼。</param>
+            <param name="handler">事件處理函式。</param>
+        </member>
+        <member name="M:FISCA.InteractionService.UnsubscribeEvent(System.String,System.EventHandler)">
+            <summary>
+            取消訂閱公開事件。
+            </summary>
+            <param name="eventCode">要取消訂閱的事件代碼。</param>
+            <param name="handler">要取消的事件處理函式。</param>
+        </member>
+        <member name="M:FISCA.InteractionService.RegisterAPI``1(``0)">
+            <summary>
+            讓其模組可以延申與自定化模組。
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="instance"></param>
+        </member>
+        <member name="M:FISCA.InteractionService.RegisterAPI(System.String,System.Dynamic.DynamicObject)">
+            <summary>
+            讓其模組可以延申與自定化模組。
+            </summary>
+            <param name="name"></param>
+            <param name="instance"></param>
+        </member>
+        <member name="M:FISCA.InteractionService.DiscoverAPI``1">
+            <summary>
+            尋找一個特定型別的 API。
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:FISCA.InteractionService.DiscoverAPI(System.String)">
+            <summary>
+            尋找一個公開的 API。
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FISCA.LicenseAttribute">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:FISCA.LicenseAttribute.#ctor(System.String)">
+            <summary>
+            沒充份討論隨性設定，死了我不管。
+            </summary>
+            <param name="moduleId">模組代碼，請充份討論後設定。</param>
+        </member>
+        <member name="P:FISCA.LicenseAttribute.ModuleId">
+            <summary>
+            模組代碼。
+            </summary>
+        </member>
+        <member name="T:FISCA.LicensePeriod">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FISCA.LicensePeriod.ModuleId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FISCA.LicensePeriod.ValidUntilString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FISCA.LicensePeriod.ValidUntil">
+            取得 ValidUntil 資料，如果沒有資料則回傳 Null。 
+        </member>
+        <member name="P:FISCA.LicensePeriod.ModuleName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:FISCA.LicensePeriod.Configed">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:FISCA.LicensePeriod.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:FISCA.LicenseService">
+            <summary>
+            提供 License 下載、快取、檢驗等功能。
+            2024/2/27 暫時下架，機制待完整後再重新調整上線。
+            </summary>
+        </member>
+        <member name="M:FISCA.LicenseService.Load(System.String[])">
+            <summary>
+            載入 License。需指明要下載的模組 Id，如果包含了沒有授權的模組 Id，則會進行 touch 動作(如果沒有受權的模組 Id 最後不會在 Licenses 屬性中)。
+            </summary>
+            <param name="midList">模組 Id 清單。</param>
+        </member>
+        <member name="M:FISCA.LicenseService.LoadSuccess">
+            <summary>
+            用於確定 Load 的工作是否完成。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FISCA.LicenseService.Reload">
+            <summary>
+            更新「已載入」的 License 資料。
+            </summary>
+        </member>
+        <member name="M:FISCA.LicenseService.IsModuleValid(System.String)">
+            <summary>
+            判斷指定的模組是否在可用狀態，如果未設定也算是可用。
+            </summary>
+            <param name="moduleId">要驗證的模組 ID。</param>
+            <returns>如果模組可用或未設定，則返回 true；否則返回 false。</returns>
+        </member>
+        <member name="P:FISCA.LicenseService.Licenses">
+            <summary>
+            目前系統中已載入的 License 清單。
+            </summary>
+        </member>
+        <member name="M:FISCA.LicenseService.TouchLicense(System.String)">
+            <summary>
+            在資料庫中記錄此學校有使用 License 但是還沒有設定到期日。
+            </summary>
+            <param name="moduleId"></param>
+            <returns></returns>
+        </member>
         <member name="T:FISCA.IPerformanceStorage">
             <summary>
             效能計數資料儲存介面。
@@ -1757,7 +1976,10 @@
             顯示權限代碼診斷器。
             </summary>
         </member>
-        <member name="M:FISCA.Tasks.InitModules.InitializePresenationPreference">
+        <member name="T:FISCA.Tasks.InitEOWebBrowser">
+             
+        </member>
+        <member name="M:FISCA.Tasks.ScanModules.InitializePresenationPreference">
             <summary>
             初始設定 Presenation 喜好設定提供者。
             </summary>
@@ -2026,7 +2248,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FISCA.Module.ScanStartup(FISCA.AssemblyResolver)">
+        <member name="M:FISCA.Module.Scan(FISCA.AssemblyResolver)">
             <summary>
             可以增加啟動組件描述檔，增加 Scan 速度。
             </summary>
@@ -2388,6 +2610,11 @@
         <member name="M:FISCA.StartupPoint.GetStartupCountNext">
             <summary>
             啟動數量。
+            </summary>
+        </member>
+        <member name="P:FISCA.StartupPoint.License">
+            <summary>
+            授權資訊。
             </summary>
         </member>
         <member name="P:FISCA.StartupPoint.IsFirstRequired">
@@ -2866,7 +3093,7 @@
             		&lt;Property Key=&quot;Copyright&quot; Value=&quot;Copyright (c) 2001-2007 Actipro Software LLC.  All rights reserved.&quot; /&gt;
             	&lt;/Properties&gt;
             
-            	&lt;!-- Highlighting Styles --&gt; [字串的其餘部分已遭截斷]&quot;; 的當地語系化字串。
+            	&lt;!-- Highlighting  [字串的其餘部分已遭截斷]&quot;; 的當地語系化字串。
              </summary>
         </member>
         <member name="P:FISCA.Properties.Resources.ActiproSoftware_XML">
@@ -2883,7 +3110,7 @@
             
             	&lt;!-- Triggers --&gt;
             	&lt;Triggers&gt;
-            		&lt;KeyPressTrigger Key=&quot;TagAutoComp [字串的其餘部分已遭截斷]&quot;; 的當地語系化字串。
+            		&lt;KeyPressTrigger Key= [字串的其餘部分已遭截斷]&quot;; 的當地語系化字串。
              </summary>
         </member>
         <member name="P:FISCA.Properties.Resources.ConsoleText">
@@ -2896,12 +3123,25 @@
                 &lt;Properties&gt;
                     &lt;Property Key=&quot;Creator&quot; Value=&quot;Actipro Software LLC&quot; /&gt;
                     &lt;Property Key=&quot;Copyright&quot; Value=&quot;Copyright (c) 2001-2007 Actipro Software LLC.  All rights reserved.&quot; /&gt;
-                &lt;/Properties&gt;
-            
-                 [字串的其餘部分已遭截斷]&quot;; 的當地語系化字串。
+                &lt;/Propertie [字串的其餘部分已遭截斷]&quot;; 的當地語系化字串。
              </summary>
         </member>
+        <member name="P:FISCA.Properties.Resources.google_logo">
+            <summary>
+              查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+            </summary>
+        </member>
         <member name="P:FISCA.Properties.Resources.info_128">
+            <summary>
+              查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+            </summary>
+        </member>
+        <member name="P:FISCA.Properties.Resources.ischool_logo">
+            <summary>
+              查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+            </summary>
+        </member>
+        <member name="P:FISCA.Properties.Resources.logo_words">
             <summary>
               查詢類型 System.Drawing.Bitmap 的當地語系化資源。
             </summary>

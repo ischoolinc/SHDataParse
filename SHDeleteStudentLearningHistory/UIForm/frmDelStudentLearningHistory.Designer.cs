@@ -1,6 +1,6 @@
 ﻿namespace SHDeleteStudentLearningHistory.UIForm
 {
-    partial class frmDeltudentLearningHistory
+    partial class frmDelStudentLearningHistory
     {
         /// <summary>
         /// Required designer variable.
@@ -127,6 +127,7 @@
             this.btnDel.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.btnDel.TabIndex = 6;
             this.btnDel.Text = "刪除";
+            this.btnDel.Click += new System.EventHandler(this.btnDel_Click);
             // 
             // btnExit
             // 
@@ -157,7 +158,7 @@
             this.DoubleBuffered = true;
             this.Name = "frmDeltudentLearningHistory";
             this.Text = "刪除學習歷程成績相關資料";
-            this.Load += new System.EventHandler(this.frmDeltudentLearningHistory_Load);
+            this.Load += new System.EventHandler(this.frmDelStudentLearningHistory_Load);
             this.ResumeLayout(false);
 
         }

@@ -24,7 +24,10 @@ namespace SHDeleteStudentLearningHistory
             K12.Presentation.NLDPanels.Student.ListPaneContexMenu["刪除學習歷程成績相關資料"].Click += delegate {
                 if (K12.Presentation.NLDPanels.Student.SelectedSource.Count > 0)
                 {
-                    frmDeltudentLearningHistory fDLH = new frmDeltudentLearningHistory();
+                    frmDelStudentLearningHistory fDLH =
+                        new frmDelStudentLearningHistory(
+                            K12.Presentation.NLDPanels.Student.SelectedSource
+                        );
                     fDLH.ShowDialog();
                 }
             };

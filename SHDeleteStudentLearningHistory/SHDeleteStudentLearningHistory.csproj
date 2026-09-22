@@ -51,16 +51,6 @@
       <HintPath>Library\FISCA.Data.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="FISCA.DSAClient, Version=1.0.1.16, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Library\FISCA.DSAClient.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="FISCA.DSAUtil, Version=3.9.0.10, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Library\FISCA.DSAUtil.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="FISCA.LogAgent, Version=1.0.0.6, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Library\FISCA.LogAgent.dll</HintPath>
@@ -105,11 +95,11 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UIForm\frmDeltudentLearningHistory.cs">
+    <Compile Include="UIForm\frmDelStudentLearningHistory.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UIForm\frmDeltudentLearningHistory.Designer.cs">
-      <DependentUpon>frmDeltudentLearningHistory.cs</DependentUpon>
+    <Compile Include="UIForm\frmDelStudentLearningHistory.Designer.cs">
+      <DependentUpon>frmDelStudentLearningHistory.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -119,10 +109,6 @@
     <Content Include="Library\FISCA.Data.dll" />
     <Content Include="Library\FISCA.Data.xml" />
     <Content Include="Library\FISCA.dll" />
-    <Content Include="Library\FISCA.DSAClient.dll" />
-    <Content Include="Library\FISCA.DSAClient.xml" />
-    <Content Include="Library\FISCA.DSAUtil.dll" />
-    <Content Include="Library\FISCA.DSAUtil.xml" />
     <Content Include="Library\FISCA.LogAgent.dll" />
     <Content Include="Library\FISCA.LogAgent.xml" />
     <Content Include="Library\FISCA.Permission.dll" />
@@ -139,8 +125,8 @@
     <Folder Include="DAO\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="UIForm\frmDeltudentLearningHistory.resx">
-      <DependentUpon>frmDeltudentLearningHistory.cs</DependentUpon>
+    <EmbeddedResource Include="UIForm\frmDelStudentLearningHistory.resx">
+      <DependentUpon>frmDelStudentLearningHistory.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
